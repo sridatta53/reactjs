@@ -1,0 +1,83 @@
+ 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX</title>
+
+    <script>
+
+        
+        //create a request
+        function show(name){
+            var request = new XMLHttpRequest();
+            request.open('GET',"https://api.openweathermap.org/data/2.5/weather?q="+name+"&appid=93f26e3c57081a6210de53b8dcfdfea4",true);
+            console.log("ok");
+            request.onload = function(){
+                if(request.status==200 ){
+                    console.log("ok1");
+                    var data  = JSON.parse(request.responseText);
+                    console.log(data);
+                    document.getElementById("temp").innerHTML=data.main.temp;
+                    document.getElementById("weather").innerHTML=data.weather[0].description;                
+                }
+                else{
+                    console.log("some error");
+                }
+
+
+            };
+            request.onerror = function(){
+                console.log("connection error");
+            }
+            request.send();
+        }
+
+
+
+    </script>
+
+
+<script>
+    function func(){
+        show(document.getElementById("city").value);
+    }
+</script>
+<style>
+    div{
+        background-image: url('img.jpg');
+        background-repeat: no-repeat;
+        background-size: 100% 100%; 
+        background-position: center;
+        height: 100%;
+
+
+        margin: auto;
+        width: 60%;
+        border: 3px solid #73AD21;
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+
+</head>
+<body>
+    <div>
+        <h1><p>select city</p></h1>
+        <select onchange="func()" id="city" placeholder="select a city">
+            <option value=""> </option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Mumbai">Mumbai</option>
+        </select>
+        <h2><p>The temperature is  </p></h2>
+        <h3><p id="temp"></p></h3>
+        <h2><p>The weather is</p></h2>
+        <h3><p id="weather"> </p> </h3>   
+    </div>
+        
+</body>
+</html>
